@@ -51,10 +51,11 @@ class MarginalModel(nn.Module):
         L2 = torch.mean(torch.relu(-dydx_uniform))
         L3 = torch.abs(1 - torch.sum(dydx_uniform)/self.uniform_data.shape[0])
         L4 = self(self.lower_bound) + torch.abs(1 - self(self.upper_bound))
-        Loss = L1*0.001 + L2 + L3 +  L4
+        Loss = L1 + L2 + L3 +  L4
         return Loss , L1, L2, L3, L4
 
     def train_model(self, X, epochs=5000, log_interval=500):
+        print('Training model')
         self.ObservedData = X
         for epoch in range(epochs):
             self.optimizer.zero_grad()
@@ -199,9 +200,34 @@ class MarginalModel(nn.Module):
                 break
         return (a + b) / 2
 
+    def CreateNormalizedTensor(self, data, scaling=1.0):
+        boundaryPoints = scaling * np.array([np.max(data), np.min(data)])
+        data = np.concatenate((data, boundaryPoints))
+        dataWithBoundaryPoints = (data - np.min(data)) / (np.max(data) - np.min(data))
+        data_tensor = torch.tensor(dataWithBoundaryPoints, dtype=torch.float32).view(-1, 1)
+        return data_tensor
+
+    def DenormalizeData(self, normalizedDataTensor):
+        normalizedData = normalizedDataTensor.detach().numpy()
+        denormalizedData = normalizedData * (np.max(self.ObservedData, axis=0) - np.min(self.ObservedData, axis=0)) + np.min(self.ObservedData, axis=0)
+        return denormalizedData
+
+    def evaluateCDFData(self, x):
+        x.requires_grad = True
+        y_pred = self(x)
+        return y_pred.detach().numpy()
+
+    def evaluatePDFData(self, x):
+        x.requires_grad = True
+        y_pred = self(x)
+        dydx = torch.autograd.grad(y_pred, x, torch.ones_like(y_pred), create_graph=True)[0]
+        return dydx.detach().numpy()
 
 
-# torch.manual_seed(0)
+
+
+
+
 class CopulaModel(nn.Module):
     def __init__(self, dataPoints, Marginal1, Marginal2, num_layers=5, num_neurons=5, lr=0.01):
         super(CopulaModel, self).__init__()
