@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from scipy.stats import norm
+from scipy.stats import norm, gaussian_kde
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -118,6 +118,39 @@ class stockPriceGenerator():
 
 
 
+# class PortfolioData():
+#     def __init__(self, dataDF, Name, proportion = 0.5):
+#         self.DataGenerator = stockPriceGenerator()
+#         self.Name = Name
+#         self.PriceDF = dataDF
+#         self.FittingDF , self.TestingDF = self.DataGenerator.SplitTimeseriesDF(dataDF, proportion=proportion)
+#         self.FittingArray, self.TestingArray = self.FittingDF.iloc[:,0:-1].to_numpy(), self.TestingDF.iloc[:,0:-1].to_numpy()
+#         self.FittingReturns = self.DataGenerator.CalculateLogReturns(self.FittingArray)
+#         self.TestingReturns = self.DataGenerator.CalculateLogReturns(self.TestingArray)
+
+#         self.estimatedStd = np.std(self.FittingReturns, axis=0)
+#         self.FittingNormalizedReturns = self.FittingReturns / self.estimatedStd
+        
+#         self.FittingSampleDict = {}
+#         pass
+
+#     def fitAndSampleCopulas(self, CopulaList, number = 10000):
+
+#         for copula in CopulaList:
+#             copula.fitModel(self.FittingNormalizedReturns)
+#             SampledReturns = norm.ppf(copula.sampleCopula(number)) * self.estimatedStd
+#             self.FittingSampleDict[copula.Name] = SampledReturns
+#             print('----------------------------------------')
+#         pass
+
+#     def PlotSampledTestComparison(self):
+#         CopulaPlot = plotCopulaData()
+#         for copulaName, SampledReturns in self.FittingSampleDict.items():
+#             CopulaPlot.plotSampleTestComparison(SampledReturns, self.TestingReturns, SampledType = copulaName, TestingType = self.Name)
+#             #print('Testing returns: ', self.TestingReturns.shape[0], ' Sampled returns: ', SampledReturns.shape[0])
+#         pass
+
+
 class PortfolioData():
     def __init__(self, dataDF, Name, proportion = 0.5):
         self.DataGenerator = stockPriceGenerator()
@@ -144,11 +177,92 @@ class PortfolioData():
         pass
 
     def PlotSampledTestComparison(self):
-        CopulaPlot = plotCopulaData()
         for copulaName, SampledReturns in self.FittingSampleDict.items():
+            CopulaPlot = plotCopulaData()
             CopulaPlot.plotSampleTestComparison(SampledReturns, self.TestingReturns, SampledType = copulaName, TestingType = self.Name)
             #print('Testing returns: ', self.TestingReturns.shape[0], ' Sampled returns: ', SampledReturns.shape[0])
         pass
+
+    def printDistances(self):
+        for copulaName, SampledReturns in self.FittingSampleDict.items():
+            dist = self._compareDistributions(SampledReturns, self.TestingReturns)
+            print(f'Distance for {copulaName} is: {dist}')
+        pass
+
+    def _compareDistributions(self, SampleReturns, TestReturns):
+        X = SampleReturns
+        Y = TestReturns
+
+        x1_max, x2_max = np.max(SampleReturns, axis = 0)
+        y1_max, y2_max = np.max(TestReturns, axis = 0)
+        x1_min, x2_min = np.min(SampleReturns, axis = 0)
+        y1_min, y2_min = np.min(TestReturns, axis = 0)
+
+        X1_min = np.min([x1_min,y1_min])
+        X1_max = np.max([x1_max,y1_max])
+        X2_min = np.min([x2_min,y2_min])
+        X2_max = np.max([x2_max,y2_max])
+        num_points = 100
+        x1_Dim_range = np.linspace(X1_min, X1_max, num_points)
+        x2_Dim_range = np.linspace(X2_min, X2_max, num_points)
+
+        ## create meshgrid
+        X1_grid, X2_grid = np.meshgrid(x1_Dim_range, x2_Dim_range)
+        grid_coords = np.vstack([X1_grid.ravel(), X2_grid.ravel()]).T
+
+        ## estimate 2D KDEs
+        kde_X = gaussian_kde(X.T)
+        kde_Y = gaussian_kde(Y.T)
+
+        ## compute density at each grid point
+        Z_X = kde_X(grid_coords.T)
+        Z_Y = kde_Y(grid_coords.T)
+
+        # Normalize to form probability distributions (sum to 1)
+        Z_X /= Z_X.sum()
+        Z_Y /= Z_Y.sum()
+
+        ## Reshape Z for plotting
+        Z_X = Z_X.reshape(X1_grid.shape)
+        Z_Y = Z_Y.reshape(X1_grid.shape)
+
+        # ## Plot the estimated density
+        # plt.figure(figsize=(6,5))
+        # plt.contourf(X1_grid, X2_grid, Z_X, levels=100, cmap='viridis')
+        # plt.colorbar(label='Density')
+        # plt.scatter(X[:, 0], X[:, 1], s=1, color='white', alpha=0.5, label='Data points')
+        # plt.title("Gaussian Kernel Density Estimation Distribution 1")
+        # plt.xlabel("X1")
+        # plt.ylabel("X2")
+        # plt.legend()
+        # plt.tight_layout()
+        # plt.show()
+
+        # ## Plot the estimated density
+        # plt.figure(figsize=(6, 5))
+        # plt.contourf(X1_grid, X2_grid, Z_Y, levels=100, cmap='viridis')
+        # plt.colorbar(label='Density')
+        # plt.scatter(Y[:, 0], Y[:, 1], s=1, color='white', alpha=0.5, label='Data points')
+        # plt.title("Gaussian Kernel Density Estimation Distribution 2")
+        # plt.xlabel("X1")
+        # plt.ylabel("X2")
+        # plt.legend()
+        # plt.tight_layout()
+        # plt.show()
+
+        ## Calculate the step size for each dimension
+        dX1 = (X1_max - X1_min) / num_points
+        dX2 = (X2_max - X2_min) / num_points
+
+        ## Create cumulative distribution functions (CDFs)
+        Z_cdf_X = Z_X.cumsum(axis=0).cumsum(axis=1)
+        Z_cdf_Y = Z_Y.cumsum(axis=0).cumsum(axis=1)
+
+        ## Calculate distance
+        dist =  (np.sum((Z_cdf_X - Z_cdf_Y)**2 *dX1*dX2))**(1/2) 
+        return dist
+
+
 
 
 class CodeRunner():
@@ -184,6 +298,7 @@ class CodeRunner():
             print('Portfolio:', key)
             print('##############################################')
             print('----------------------------------------------')
+            distance = portfolio.printDistances()
             portfolio.fitAndSampleCopulas(self.CopulaList, number=int(np.floor(self.n/2)))
 
     def displayResults(self):
@@ -191,11 +306,22 @@ class CodeRunner():
             print('----------------------------------------------')
             print('Portfolio:', key)
             print('----------------------------------------------')
+            distance = portfolio.printDistances()
             portfolio.PlotSampledTestComparison()
             
     def insertRealData(self, dataDF):
         # Function to insert real data portfolio into code runner dictionary
         pass
+
+
+
+
+
+
+
+
+
+
 
 
 class plotCopulaData():
@@ -313,7 +439,7 @@ class plotCopulaData():
         PriceDF.plot(x='Time', title = title ,ylabel='Price', xlabel='Time');
         pass
 
-    def plotStockPriceSections(self, FittingDF, TestingDF):
+    def plotStockPriceSections(self, FittingDF, TestingDF, key = None):
         fig, ax = plt.subplots(figsize=(10, 5))
         # Plot Stock1 from fit and test
         FittingDF.plot(x='Time', y='Stock1', ax=ax, color='C0', label='Stock1 - Fitting Data')
@@ -325,7 +451,10 @@ class plotCopulaData():
 
         transition_time = FittingDF['Time'].iloc[-1]
         ax.axvline(x=transition_time, color='black', linestyle='--', linewidth=2, label='Fit/Test divider')
-        ax.set_title('Stock Price Trajectory division')
+        if key is not None:
+            ax.set_title(f'Stock Price Trajectory for {key}')
+        else:
+            ax.set_title('Stock Price Trajectory division')
         ax.set_xlabel('Time')
         ax.set_ylabel('Price')
         plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.17), fontsize=9, ncol=2)

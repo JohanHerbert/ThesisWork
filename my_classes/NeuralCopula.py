@@ -339,63 +339,107 @@ class CopulaModel(nn.Module):
             self.isTrained = True
 
 
-    def sample(self, n = 1000):
-        if self.isTrained == False:
+    def sample(self, n=1000):
+        if not self.isTrained:
             print("Model not trained. Training model...")
             self.train_model(self.ObservedData)
-            self.isTrained = True
+        # Build the grid to compute M
+        dim_range = torch.linspace(0, 1, 1000)
+        grid = torch.stack(torch.meshgrid(dim_range, dim_range, indexing='ij'), dim=-1).flatten(0, 1).requires_grad_()
+        C_uv = self(grid)
+        grad_u = torch.autograd.grad(C_uv, grid, torch.ones_like(C_uv), create_graph=True)[0][:, 0]
+        grad_uv = torch.autograd.grad(grad_u, grid, torch.ones_like(grad_u), create_graph=True)[0][:, 1]
+        M = grad_uv.max().item()
 
-        # Generate random samples from a uniform distribution
-        u = np.random.uniform(0, 1, (n, 2))
-        samples = np.zeros(u.shape)
-        samples[:,0] = u[:,0]
-        u = torch.tensor(u, dtype=torch.float32)
-        u1 = u[:,0].view(-1, 1)
-        ones = torch.ones_like(u1)
-        uBoundary = torch.cat((u1, ones), dim=1)
-        # Generate random samples from the copula
-        scalings = self(uBoundary)
-        z1 = u[:,1].unsqueeze(1) * scalings # Scaled random numbers on height of copula
-        ## solve for u2 given u1 and z1
-        u2 = self._vectorized_bisection(z1, u1_fixed = u1)
-        samples[:,1] = u2.detach().numpy().flatten()
-        return samples
+        # Initialize empty list to collect samples
+        accepted_samples = []
+        total_accepted = 0
+
+        # While not enough samples
+        while total_accepted < n:
+            # Propose candidates
+            batch_size = 1*n  
+            u1 = torch.rand(batch_size, 1)
+            u2 = torch.rand(batch_size, 1)
+            u = torch.cat((u1, u2), dim=1).requires_grad_(True)
+
+            # Forward pass
+            y_pred = self(u)
+            grad_u1 = torch.autograd.grad(y_pred, u, torch.ones_like(y_pred), create_graph=True)[0][:, 0]
+            grad_u1_u2 = torch.autograd.grad(grad_u1, u, torch.ones_like(grad_u1), create_graph=True)[0][:, 1]
+            acceptance_prob = grad_u1_u2 / M
+            random_uniform = torch.rand_like(acceptance_prob)
+            accepted_batch = u[random_uniform <= acceptance_prob]
+
+
+            total_accepted += accepted_batch.shape[0]
+            print(f'Accepted: {total_accepted}')
+            accepted_samples.append(accepted_batch)
+
+        # Concatenate all accepted batches
+        accepted_samples = torch.cat(accepted_samples, dim=0)
+
+        # Only keep exactly n samples
+        accepted_samples = accepted_samples[:n].detach().numpy()
+        return accepted_samples
     
-    def _PartialCopula(self, u1_fixed, u2):
-        u = torch.cat((u1_fixed, u2), dim=1)
-        return self(u)
+    # def sample(self, n = 1000):
+    #     if self.isTrained == False:
+    #         print("Model not trained. Training model...")
+    #         self.train_model(self.ObservedData)
+    #         self.isTrained = True
+
+    #     # Generate random samples from a uniform distribution
+    #     u = np.random.uniform(0, 1, (n, 2))
+    #     samples = np.zeros(u.shape)
+    #     samples[:,0] = u[:,0]
+    #     u = torch.tensor(u, dtype=torch.float32)
+    #     u1 = u[:,0].view(-1, 1)
+    #     ones = torch.ones_like(u1)
+    #     uBoundary = torch.cat((u1, ones), dim=1)
+    #     # Generate random samples from the copula
+    #     scalings = self(uBoundary)
+    #     z1 = u[:,1].unsqueeze(1) * scalings # Scaled random numbers on height of copula
+    #     ## solve for u2 given u1 and z1
+    #     u2 = self._vectorized_bisection(z1, u1_fixed = u1)
+    #     samples[:,1] = u2.detach().numpy().flatten()
+    #     return samples
     
-    def _vectorized_bisection(self, z, u1_fixed, tol=1e-6, max_iter=100):
-        """
-        Vectorized Bisection Method to find roots of a function f(z) in the interval [0,1] for multiple values of z simultaneously.
+    # def _PartialCopula(self, u1_fixed, u2):
+    #     u = torch.cat((u1_fixed, u2), dim=1)
+    #     return self(u)
+    
+    # def _vectorized_bisection(self, z, u1_fixed, tol=1e-6, max_iter=100):
+    #     """
+    #     Vectorized Bisection Method to find roots of a function f(z) in the interval [0,1] for multiple values of z simultaneously.
         
-        Parameters:
-        f : function
-            The function whose roots are to be found.
-        z : torch.Tensor
-            Tensor of values for which roots are to be found.
-        tol : float, optional
-            The tolerance for stopping the iteration (default is 1e-6).
-        max_iter : int, optional
-            Maximum number of iterations (default is 100).
+    #     Parameters:
+    #     f : function
+    #         The function whose roots are to be found.
+    #     z : torch.Tensor
+    #         Tensor of values for which roots are to be found.
+    #     tol : float, optional
+    #         The tolerance for stopping the iteration (default is 1e-6).
+    #     max_iter : int, optional
+    #         Maximum number of iterations (default is 100).
         
-        Returns:
-        torch.Tensor
-            Tensor of estimated root values.
-        """
-        a, b = torch.zeros_like(z), torch.ones_like(z)
-        fa, fb = self._PartialCopula(u1_fixed, a) , self._PartialCopula(u1_fixed, b) 
-        fa, fb = fa - z, fb - z
+    #     Returns:
+    #     torch.Tensor
+    #         Tensor of estimated root values.
+    #     """
+    #     a, b = torch.zeros_like(z), torch.ones_like(z)
+    #     fa, fb = self._PartialCopula(u1_fixed, a) , self._PartialCopula(u1_fixed, b) 
+    #     fa, fb = fa - z, fb - z
         
-        for _ in range(max_iter):
-            c = ((a + b) / 2)  # Midpoint
-            fc = self._PartialCopula(u1_fixed, c) - z
-            left_mask = fc * fa < 0
-            right_mask = fc * fb < 0
-            a, b = torch.where(left_mask, a, c), torch.where(right_mask, b, c)
-            if torch.all(torch.abs(b - a) < tol):
-                break
-        return (a + b) / 2
+    #     for _ in range(max_iter):
+    #         c = ((a + b) / 2)  # Midpoint
+    #         fc = self._PartialCopula(u1_fixed, c) - z
+    #         left_mask = fc * fa < 0
+    #         right_mask = fc * fb < 0
+    #         a, b = torch.where(left_mask, a, c), torch.where(right_mask, b, c)
+    #         if torch.all(torch.abs(b - a) < tol):
+    #             break
+    #     return (a + b) / 2
     
     def plotSamples(self, sample, ProbSpace = True):
         df_samples = pd.DataFrame({

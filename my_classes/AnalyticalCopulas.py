@@ -155,7 +155,6 @@ class StudentsCopula():
         return transformedSample
     
 
-
 class ClaytonCopula():
     def __init__(self):
         self.Name = 'Clayton Copula'
@@ -170,7 +169,18 @@ class ClaytonCopula():
         print('Fitting Clayton Copula model...')   
         self.data = data
         self.transformedData = norm.cdf(data) ## transform data to uniform marginals from normal marginals
-        self.theta = self._optimizeTheta(self.transformedData, initialGuess)[0] ## gives the optimal theta
+
+        resultObject = self._optimizeTheta(self.transformedData, initialGuess)
+        print('Optimization result: ', resultObject.success)
+        iter = 0
+        while resultObject.success == False  or iter < 50:
+            print('Optimization failed, trying again...')
+            print(f'Message: {resultObject.message}')
+            initialGuess = np.random.uniform(0.01, 1.0)
+            resultObject = self._optimizeTheta(self.transformedData, initialGuess)
+            iter += 1
+
+        self.theta = resultObject.x[0] ## gives the optimal theta
         self.IsFitted = True
         epsilon = 1e-10
         if self.theta == epsilon:
@@ -190,7 +200,7 @@ class ClaytonCopula():
         x0 = [initialGuess] ## Seems to be good to start small rather than large
         objectiveFixData = partial(self._logLikelihood, transformedData = transformedData)
         result = minimize(objectiveFixData, x0, method='L-BFGS-B', bounds=bounds,  )
-        return result.x
+        return result  #.x
 
     def _logLikelihood(self, theta, transformedData):
         likelihoodvals = self._claytonCopulaPDF(transformedData, theta)
@@ -218,23 +228,6 @@ class ClaytonCopula():
         # else:
         #     CopulaFunction = (u1**(-self.theta) + u2**(-self.theta) - 1)**(-1/self.theta)
         return CopulaFunction
-            
-    # def sampleCopulaOLD(self, n, theta = 1):
-    #     # Function to sample data from copula 
-    #     sampledData = np.zeros((n, 2))
-
-    #     if self.IsFitted == True:
-    #         theta = self.theta
-    #     # Generate nx2 uniform random numbers
-    #     U = np.random.uniform(0, 1, (n, 2))
-    #     # Fix first variable 
-    #     sampledData[:,0] = U[:,0]
-    #     # # Find maximum value of the copula function when first variable is fixed
-    #     # m = self.evalCDF(u1 =  U[:,0], u2 = np.ones(n), theta = theta)
-    #     # solve for the second variable
-    #     sampledData[:,1] = ((U[:,0]**(-theta) -1 )* U[:,1]**(-1/theta) +1 )**(-1/theta)   #((m*U[:,1])**(-theta) - U[:,0]**(-theta) + 1  )**(-1/theta)
-    #     return sampledData
-
 
     def sampleCopula(self, n, theta = 1):
         if self.IsFitted:
