@@ -17,6 +17,5 @@ module purge > /dev/null 2>&1
 # Load the module environment suitable for the job
 ml restore Johans_collection
 
-
-
+# Run the script
 python BigTestKebnekaise.py 

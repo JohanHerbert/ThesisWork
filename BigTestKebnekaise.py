@@ -35,7 +35,7 @@ class MarginalModel(nn.Module):
 
         # Data for training
         self.ObservedData = None
-        self.uniform_data = torch.tensor(np.linspace(0, 1, 500), dtype=torch.float32).view(-1, 1)
+        self.uniform_data = torch.tensor(np.linspace(0, 1, 500), dtype=torch.float32).view(-1, 1).to(device)
         self.lower_bound = torch.tensor([[0.0]]).to(device)
         self.upper_bound = torch.tensor([[1.0]]).to(device)
 
@@ -597,6 +597,7 @@ class DatasetTester():
             logger = ProgressLogger(file_path=file_path)
 
             print(f'######################### Running test with dataset: {name} ###########')
+            #print(data[0:3,:])
             Mtester = MethodTester(data=data, grid = self.grid, runs = 1, logger=logger)
             Mtester.runTest()
             self.resultDict[name] = Mtester
@@ -686,6 +687,8 @@ class ParameterTester():
         self.L4 = None
         self.L5 = None
         self.trainingTime = None
+        #print('in parameter tester')
+        #print(data[0:3,:])
         
     def runTest(self, method = 'regular'):
         if method == 'regular':
@@ -696,16 +699,10 @@ class ParameterTester():
         self.initialWeights = self.NC.initialCopulaWeights
         self.finalWeights = self.NC.Copula.state_dict()
         self.trainingTime = self.NC.copulaTrainingTime
-        
 
 class ProgressLogger:
-    _instance = None
-
-    def __new__(cls, file_path):
-        if cls._instance is None:
-            cls._instance = super(ProgressLogger, cls).__new__(cls)
-            cls._instance.file_path = file_path
-        return cls._instance
+    def __init__(self, file_path):
+        self.file_path = file_path
 
     def add_run(self, run_id, run_data):
         data = self._load()
@@ -726,7 +723,6 @@ class ProgressLogger:
             json.dump(data, f, indent=4)
 
 
-
 ###############  Running the code ###############      
 #################################################
 
@@ -744,25 +740,27 @@ A_U = np.linalg.cholesky(corrMatFrechetUpper)
 A_L = np.linalg.cholesky(corrMatFrechetLower)
 X_U = (A_U @ Z.T).T
 X_L = (A_L @ Z.T).T
+X_neg = X.copy()
+X_neg[:,1] = -X_neg[:,1]
 
 datasets = {
-    'Independence': Z,
-    # 'Positive dependence': X,
-    # 'Negative dependence': -X,
-    # 'FrechetUpper' : X_U,
-    # 'FrechetLower' : X_L,
+    'InDep': Z,
+    'PosDep': X,
+    'NegDep': X_neg,
+    'FrecUp' : X_U,
+    'FrecLo' : X_L,
 }
 
 # grid = {
-#     'num_layers': [2, 3, 4],
+#     'num_layers': [3, 4],# 2, 3, 4
 #     'num_neurons': [5, 10],
 #     'lr': [0.1, 0.01], 
-#     'scheduler': ['step', 'exponential', None],# 'step','exponential'
-#     'solver': ['adam', 'sgd'], # 'adam', 'sgd'
-#     'epochs': [ 10000, 15000],
-#     'batch_size': [256, 1024], 
-#     'uniform_points': [100], # per dimension really n^2
-#     'boundary_points': [100], # per dimension
+#     'scheduler': ['exponential', None],# 'step', 'exponential', None
+#     'solver': ['adam'], # 'adam', 'sgd'
+#     'epochs': [ 10000, 5000],
+#     'batch_size': [1024, 2048], 
+#     'uniform_points': [50], # per dimension really n^2
+#     'boundary_points': [50], # per dimension
 #     'L1_weight': [1],
 #     'L2_weight': [1],
 #     'L3_weight': [1],
@@ -771,23 +769,21 @@ datasets = {
 # }
 
 grid = {
-    'num_layers': [ 3],
-    'num_neurons': [10],
-    'lr': [ 0.01], 
-    'scheduler': [ 'step'],# 'step','exponential'
-    'solver': ['sgd'], # 'adam', 'sgd'
-    'epochs': [5000],
+    'num_layers': [3 ],# 2, 3, 4
+    'num_neurons': [5],
+    'lr': [0.1], 
+    'scheduler': ['exponential'],# 'step', 'exponential', None
+    'solver': ['adam'], # 'adam', 'sgd'
+    'epochs': [ 1000],
     'batch_size': [1024], 
-    'uniform_points': [100], # per dimension really n^2
-    'boundary_points': [100], # per dimension
+    'uniform_points': [50], # per dimension really n^2
+    'boundary_points': [50], # per dimension
     'L1_weight': [1],
     'L2_weight': [1],
     'L3_weight': [1],
     'L4_weight': [1],
     'L5_weight': [1],
 }
-
-
 
 DataTester = DatasetTester(datasets, grid, runs = 1)
 DataTester.runTest()

@@ -2302,5 +2302,13 @@
         "L4": 50.004390716552734,
         "L5": 0.24866722524166107,
         "time": 97.51548218727112
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=1__L4_weight=1__L5_weight=1__batch_size=1024__boundary_points=100__epochs=1000__lr=0.01__num_layers=3__num_neurons=10__scheduler=exponential__solver=sgd__uniform_points=100": {
+        "L1": 5.572754859924316,
+        "L2": 0.013502958230674267,
+        "L3": 0.6972905397415161,
+        "L4": 47.16815185546875,
+        "L5": 0.09065157175064087,
+        "time": 16.863407611846924
     }
 }
