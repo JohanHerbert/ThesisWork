@@ -1,0 +1,650 @@
+{
+    "L1_weight=1__L2_weight=0.5__L3_weight=0.5__L4_weight=0.5__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -0.8735138177871704,
+        "L2": 0.4044404625892639,
+        "L3": 0.2018641233444214,
+        "L4": 2.299893379211426,
+        "L5": 0.035307928919792175,
+        "time": 127.48460340499878
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=0.5__L4_weight=0.5__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.6352741718292236,
+        "L2": 2.187023639678955,
+        "L3": 0.12256312370300293,
+        "L4": 1.4846291542053223,
+        "L5": 0.08084883540868759,
+        "time": 126.67144274711609
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=0.5__L4_weight=0.5__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.655407905578613,
+        "L2": 1.49136221408844,
+        "L3": 5.8770179748535156e-05,
+        "L4": 0.3903190493583679,
+        "L5": 0.02004663646221161,
+        "time": 126.43201971054077
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=0.5__L4_weight=1__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.4355788230896,
+        "L2": 1.794782042503357,
+        "L3": 0.0622066855430603,
+        "L4": 0.19596725702285767,
+        "L5": 0.06532678008079529,
+        "time": 126.3062674999237
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=0.5__L4_weight=1__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -2.1256186962127686,
+        "L2": 1.2994838953018188,
+        "L3": 6.890296936035156e-05,
+        "L4": 49.48922348022461,
+        "L5": 0.2658105790615082,
+        "time": 126.8499026298523
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=0.5__L4_weight=1__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.9633138179779053,
+        "L2": 1.8447468280792236,
+        "L3": 2.0503997802734375e-05,
+        "L4": 0.3661305904388428,
+        "L5": 0.034090518951416016,
+        "time": 126.47279977798462
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=0.5__L4_weight=2__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.0209879875183105,
+        "L2": 2.4713592529296875,
+        "L3": 0.05025315284729004,
+        "L4": 0.27074766159057617,
+        "L5": 0.057802267372608185,
+        "time": 125.98089289665222
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=0.5__L4_weight=2__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -0.6919007897377014,
+        "L2": 0.19130149483680725,
+        "L3": 0.0985521674156189,
+        "L4": 0.7983994483947754,
+        "L5": 0.031232060864567757,
+        "time": 127.6301441192627
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=0.5__L4_weight=2__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.4133074283599854,
+        "L2": 0.8159918785095215,
+        "L3": 0.13706672191619873,
+        "L4": 1.0031373500823975,
+        "L5": 0.04577285796403885,
+        "time": 128.46279382705688
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=1__L4_weight=0.5__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.243459224700928,
+        "L2": 1.5995527505874634,
+        "L3": 2.7418136596679688e-05,
+        "L4": 0.26274266839027405,
+        "L5": 0.023029863834381104,
+        "time": 126.13120627403259
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=1__L4_weight=0.5__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.460174083709717,
+        "L2": 1.5960171222686768,
+        "L3": 0.00012803077697753906,
+        "L4": 0.17367683351039886,
+        "L5": 0.01931769773364067,
+        "time": 125.89628171920776
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=1__L4_weight=0.5__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.538989543914795,
+        "L2": 1.1144253015518188,
+        "L3": 6.794929504394531e-06,
+        "L4": 0.11145439743995667,
+        "L5": 0.010189959779381752,
+        "time": 126.70826482772827
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=1__L4_weight=1__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.422948360443115,
+        "L2": 1.9099177122116089,
+        "L3": 3.6954879760742188e-06,
+        "L4": 0.19318787753582,
+        "L5": 0.04115407168865204,
+        "time": 126.28391289710999
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=1__L4_weight=1__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.397562503814697,
+        "L2": 1.5455124378204346,
+        "L3": 3.230571746826172e-05,
+        "L4": 0.17118167877197266,
+        "L5": 0.039216335862874985,
+        "time": 125.74822330474854
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=1__L4_weight=1__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.7676687240600586,
+        "L2": 2.0048985481262207,
+        "L3": 0.08585786819458008,
+        "L4": 0.45184504985809326,
+        "L5": 0.043390464037656784,
+        "time": 126.41251039505005
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=1__L4_weight=2__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.064966678619385,
+        "L2": 0.4809388518333435,
+        "L3": 1.9788742065429688e-05,
+        "L4": 50.10131072998047,
+        "L5": 0.3085913062095642,
+        "time": 126.46326422691345
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=1__L4_weight=2__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.366082191467285,
+        "L2": 1.9421941041946411,
+        "L3": 0.00010967254638671875,
+        "L4": 0.0780380368232727,
+        "L5": 0.10180911421775818,
+        "time": 126.39069056510925
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=1__L4_weight=2__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.615338325500488,
+        "L2": 1.814034342765808,
+        "L3": 2.4318695068359375e-05,
+        "L4": 0.08054960519075394,
+        "L5": 0.02060585282742977,
+        "time": 126.17032480239868
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=2__L4_weight=0.5__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.363190650939941,
+        "L2": 1.2998052835464478,
+        "L3": 5.805492401123047e-05,
+        "L4": 0.26729094982147217,
+        "L5": 0.02562655508518219,
+        "time": 126.12965154647827
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=2__L4_weight=0.5__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.3535590171813965,
+        "L2": 1.191640019416809,
+        "L3": 0.0003647804260253906,
+        "L4": 50.50143051147461,
+        "L5": 0.29046061635017395,
+        "time": 126.35310292243958
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=2__L4_weight=0.5__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.480798244476318,
+        "L2": 1.455105185508728,
+        "L3": 4.589557647705078e-06,
+        "L4": 0.255385160446167,
+        "L5": 0.020370302721858025,
+        "time": 126.16443371772766
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=2__L4_weight=1__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -2.5175304412841797,
+        "L2": 1.4919275045394897,
+        "L3": 0.07465493679046631,
+        "L4": 0.39740249514579773,
+        "L5": 0.06426992267370224,
+        "time": 125.83646583557129
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=2__L4_weight=1__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.141687870025635,
+        "L2": 1.4487993717193604,
+        "L3": 0.07112455368041992,
+        "L4": 0.14408010244369507,
+        "L5": 0.019870223477482796,
+        "time": 126.97590208053589
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=2__L4_weight=1__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -2.5706827640533447,
+        "L2": 1.7167315483093262,
+        "L3": 0.1471845507621765,
+        "L4": 1.4008532762527466,
+        "L5": 0.07805796712636948,
+        "time": 125.91952776908875
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=2__L4_weight=2__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.009766101837158,
+        "L2": 1.7343835830688477,
+        "L3": 1.3589859008789062e-05,
+        "L4": 0.18839296698570251,
+        "L5": 0.05647796392440796,
+        "time": 126.10369086265564
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=2__L4_weight=2__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": 5.43189001083374,
+        "L2": 0.21620680391788483,
+        "L3": 0.17940950393676758,
+        "L4": 2.588245391845703,
+        "L5": 0.1558196246623993,
+        "time": 127.25423502922058
+    },
+    "L1_weight=1__L2_weight=0.5__L3_weight=2__L4_weight=2__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -2.0450515747070312,
+        "L2": 1.237624168395996,
+        "L3": 0.06069779396057129,
+        "L4": 0.49965596199035645,
+        "L5": 0.06754930317401886,
+        "time": 126.30943417549133
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=0.5__L4_weight=0.5__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.8825953006744385,
+        "L2": 0.6979078650474548,
+        "L3": 0.03962075710296631,
+        "L4": 0.19415952265262604,
+        "L5": 0.012163583189249039,
+        "time": 126.08908104896545
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=0.5__L4_weight=0.5__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.3747379779815674,
+        "L2": 0.6438009142875671,
+        "L3": 0.05360209941864014,
+        "L4": 0.22102147340774536,
+        "L5": 0.014186618849635124,
+        "time": 126.71625685691833
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=0.5__L4_weight=0.5__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.999033212661743,
+        "L2": 0.42000487446784973,
+        "L3": 0.03398948907852173,
+        "L4": 0.30983126163482666,
+        "L5": 0.011260324157774448,
+        "time": 126.67230558395386
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=0.5__L4_weight=1__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.822547435760498,
+        "L2": 0.769329309463501,
+        "L3": 0.04575920104980469,
+        "L4": 0.09838246554136276,
+        "L5": 0.08794661611318588,
+        "time": 126.78593444824219
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=0.5__L4_weight=1__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.9696834087371826,
+        "L2": 0.7404994368553162,
+        "L3": 4.351139068603516e-06,
+        "L4": 0.18845929205417633,
+        "L5": 0.02061648853123188,
+        "time": 126.36062979698181
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=0.5__L4_weight=1__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -2.875527858734131,
+        "L2": 0.5858634114265442,
+        "L3": 0.054938316345214844,
+        "L4": 0.18843740224838257,
+        "L5": 0.026024071499705315,
+        "time": 127.26168394088745
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=0.5__L4_weight=2__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -2.801846742630005,
+        "L2": 0.7738006114959717,
+        "L3": 0.06326514482498169,
+        "L4": 0.22369788587093353,
+        "L5": 0.015164289623498917,
+        "time": 127.5721435546875
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=0.5__L4_weight=2__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.8746099472045898,
+        "L2": 0.7063577771186829,
+        "L3": 0.06543868780136108,
+        "L4": 0.2816590368747711,
+        "L5": 0.04344754293560982,
+        "time": 126.27934622764587
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=0.5__L4_weight=2__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.3086997270584106,
+        "L2": 0.30981898307800293,
+        "L3": 0.08090078830718994,
+        "L4": 0.46504247188568115,
+        "L5": 0.01800422929227352,
+        "time": 126.04382419586182
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=1__L4_weight=0.5__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.994093418121338,
+        "L2": 0.5455039143562317,
+        "L3": 1.2159347534179688e-05,
+        "L4": 0.3249293565750122,
+        "L5": 0.009252507239580154,
+        "time": 126.24982023239136
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=1__L4_weight=0.5__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -2.390573263168335,
+        "L2": 0.40580272674560547,
+        "L3": 3.2782554626464844e-06,
+        "L4": 0.18856795132160187,
+        "L5": 0.014148812741041183,
+        "time": 125.60075163841248
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=1__L4_weight=0.5__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -2.8741161823272705,
+        "L2": 0.5366435647010803,
+        "L3": 0.058358848094940186,
+        "L4": 0.21997112035751343,
+        "L5": 0.014728008769452572,
+        "time": 125.66830563545227
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=1__L4_weight=1__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -2.2647218704223633,
+        "L2": 1.1380263566970825,
+        "L3": 0.10650110244750977,
+        "L4": 0.5782536864280701,
+        "L5": 0.05765289068222046,
+        "time": 125.56216382980347
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=1__L4_weight=1__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.002211570739746,
+        "L2": 0.374379426240921,
+        "L3": 1.3113021850585938e-06,
+        "L4": 0.10493626445531845,
+        "L5": 0.008644923567771912,
+        "time": 126.14163327217102
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=1__L4_weight=1__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.649793028831482,
+        "L2": 0.4022118151187897,
+        "L3": 0.06620728969573975,
+        "L4": 0.3419908285140991,
+        "L5": 0.022395484149456024,
+        "time": 126.11917567253113
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=1__L4_weight=2__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.059009075164795,
+        "L2": 0.56621253490448,
+        "L3": 3.4809112548828125e-05,
+        "L4": 0.13480548560619354,
+        "L5": 0.014320394955575466,
+        "time": 126.54231286048889
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=1__L4_weight=2__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.0820798873901367,
+        "L2": 0.35779711604118347,
+        "L3": 0.07246029376983643,
+        "L4": 0.28638955950737,
+        "L5": 0.0314144529402256,
+        "time": 126.73355555534363
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=1__L4_weight=2__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -2.9309098720550537,
+        "L2": 0.6442345380783081,
+        "L3": 6.4373016357421875e-06,
+        "L4": 0.25138869881629944,
+        "L5": 0.014959295280277729,
+        "time": 127.1026840209961
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=2__L4_weight=0.5__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.6129752397537231,
+        "L2": 0.45698103308677673,
+        "L3": 0.06405127048492432,
+        "L4": 0.22443145513534546,
+        "L5": 0.03296666964888573,
+        "time": 126.07934594154358
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=2__L4_weight=0.5__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -4.017759323120117,
+        "L2": 0.36304783821105957,
+        "L3": 1.7523765563964844e-05,
+        "L4": 0.13164761662483215,
+        "L5": 0.00686909444630146,
+        "time": 125.90472483634949
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=2__L4_weight=0.5__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.7432405948638916,
+        "L2": 0.5006282329559326,
+        "L3": 0.06302803754806519,
+        "L4": 0.3525269031524658,
+        "L5": 0.033298857510089874,
+        "time": 127.02487516403198
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=2__L4_weight=1__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.874553918838501,
+        "L2": 0.723901629447937,
+        "L3": 0.048149704933166504,
+        "L4": 0.162283256649971,
+        "L5": 0.054761484265327454,
+        "time": 126.04519438743591
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=2__L4_weight=1__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.1719884872436523,
+        "L2": 0.46951740980148315,
+        "L3": 0.04510754346847534,
+        "L4": 0.20787611603736877,
+        "L5": 0.011118351481854916,
+        "time": 126.43775224685669
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=2__L4_weight=1__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": 3.977478265762329,
+        "L2": 0.0,
+        "L3": 0.960979700088501,
+        "L4": 51.08515167236328,
+        "L5": 0.32031938433647156,
+        "time": 127.18781542778015
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=2__L4_weight=2__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.856307029724121,
+        "L2": 0.8370229005813599,
+        "L3": 0.045275986194610596,
+        "L4": 0.08703632652759552,
+        "L5": 0.0572216771543026,
+        "time": 127.44433760643005
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=2__L4_weight=2__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": 5.051882743835449,
+        "L2": 0.09825319796800613,
+        "L3": 0.17205536365509033,
+        "L4": 2.208132266998291,
+        "L5": 0.12668275833129883,
+        "time": 126.82001733779907
+    },
+    "L1_weight=1__L2_weight=1__L3_weight=2__L4_weight=2__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.9350709915161133,
+        "L2": 0.44821903109550476,
+        "L3": 0.043559253215789795,
+        "L4": 0.10708405077457428,
+        "L5": 0.009241814725100994,
+        "time": 126.85331892967224
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=0.5__L4_weight=0.5__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.7517995834350586,
+        "L2": 0.11372721940279007,
+        "L3": 0.03154897689819336,
+        "L4": 0.2564544081687927,
+        "L5": 0.0065553695894777775,
+        "time": 126.83819556236267
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=0.5__L4_weight=0.5__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": 18.42068099975586,
+        "L2": 6.798742560931714e-06,
+        "L3": 1.0000067949295044,
+        "L4": 50.00155258178711,
+        "L5": 0.3293496072292328,
+        "time": 126.35043382644653
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=0.5__L4_weight=0.5__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.139622688293457,
+        "L2": 0.16697436571121216,
+        "L3": 0.11706578731536865,
+        "L4": 1.3076162338256836,
+        "L5": 0.025358866900205612,
+        "time": 126.73322629928589
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=0.5__L4_weight=1__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.2594029903411865,
+        "L2": 0.19376690685749054,
+        "L3": 0.082133948802948,
+        "L4": 0.21455760300159454,
+        "L5": 0.013539740815758705,
+        "time": 126.40614032745361
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=0.5__L4_weight=1__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.8468735218048096,
+        "L2": 0.09570401906967163,
+        "L3": 0.2570081949234009,
+        "L4": 0.12241718173027039,
+        "L5": 0.014359496533870697,
+        "time": 127.75512146949768
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=0.5__L4_weight=1__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.679502487182617,
+        "L2": 0.12975920736789703,
+        "L3": 2.86102294921875e-06,
+        "L4": 0.12072008848190308,
+        "L5": 0.008219387382268906,
+        "time": 126.82333278656006
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=0.5__L4_weight=2__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.5035078525543213,
+        "L2": 0.2542063295841217,
+        "L3": 0.06741666793823242,
+        "L4": 0.28317978978157043,
+        "L5": 0.052098412066698074,
+        "time": 126.33626127243042
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=0.5__L4_weight=2__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -2.2993667125701904,
+        "L2": 0.2935754358768463,
+        "L3": 0.065463125705719,
+        "L4": 0.3014516830444336,
+        "L5": 0.03383930027484894,
+        "time": 126.69819688796997
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=0.5__L4_weight=2__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.252863645553589,
+        "L2": 0.19100648164749146,
+        "L3": 0.04593777656555176,
+        "L4": 0.11707181483507156,
+        "L5": 0.012835555709898472,
+        "time": 126.95709991455078
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=1__L4_weight=0.5__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.4988863468170166,
+        "L2": 0.09117184579372406,
+        "L3": 0.41254639625549316,
+        "L4": 0.2721256911754608,
+        "L5": 0.02136954851448536,
+        "time": 126.90603709220886
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=1__L4_weight=0.5__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.9926884174346924,
+        "L2": 0.2017829716205597,
+        "L3": 0.0770496129989624,
+        "L4": 0.5388892889022827,
+        "L5": 0.011272705160081387,
+        "time": 127.3057267665863
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=1__L4_weight=0.5__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.4632976055145264,
+        "L2": 0.08457208424806595,
+        "L3": 0.08774662017822266,
+        "L4": 0.24999035894870758,
+        "L5": 0.007044338621199131,
+        "time": 126.8440375328064
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=1__L4_weight=1__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.2996042966842651,
+        "L2": 0.21805261075496674,
+        "L3": 0.06587129831314087,
+        "L4": 0.32054489850997925,
+        "L5": 0.015442903153598309,
+        "time": 126.99841499328613
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=1__L4_weight=1__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.508575439453125,
+        "L2": 0.3252527117729187,
+        "L3": 2.384185791015625e-06,
+        "L4": 0.15377354621887207,
+        "L5": 0.02448655292391777,
+        "time": 126.87649178504944
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=1__L4_weight=1__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.655956268310547,
+        "L2": 0.2006607949733734,
+        "L3": 0.07383781671524048,
+        "L4": 0.4858745336532593,
+        "L5": 0.007303196471184492,
+        "time": 126.5572395324707
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=1__L4_weight=2__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": 0.3851433992385864,
+        "L2": 0.06837954372167587,
+        "L3": 0.13890588283538818,
+        "L4": 2.3067915439605713,
+        "L5": 0.026933519169688225,
+        "time": 126.62770628929138
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=1__L4_weight=2__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": 18.420679092407227,
+        "L2": 6.764531712555311e-10,
+        "L3": 1.0,
+        "L4": 50.00004577636719,
+        "L5": 0.3296622037887573,
+        "time": 126.34511804580688
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=1__L4_weight=2__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -2.7399442195892334,
+        "L2": 0.3154473900794983,
+        "L3": 0.05272412300109863,
+        "L4": 0.11649088561534882,
+        "L5": 0.027050994336605072,
+        "time": 126.38286256790161
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=2__L4_weight=0.5__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.313948631286621,
+        "L2": 0.2663569152355194,
+        "L3": 0.04786849021911621,
+        "L4": 0.3735300302505493,
+        "L5": 0.02293790876865387,
+        "time": 126.56194257736206
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=2__L4_weight=0.5__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.720860004425049,
+        "L2": 0.07781150937080383,
+        "L3": 7.3909759521484375e-06,
+        "L4": 0.12598401308059692,
+        "L5": 0.00533571932464838,
+        "time": 126.96639561653137
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=2__L4_weight=0.5__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.665750503540039,
+        "L2": 0.19398048520088196,
+        "L3": 2.9206275939941406e-06,
+        "L4": 0.4487985670566559,
+        "L5": 0.01736321672797203,
+        "time": 126.86726403236389
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=2__L4_weight=1__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.5456434488296509,
+        "L2": 0.18555988371372223,
+        "L3": 0.05873310565948486,
+        "L4": 0.2620645761489868,
+        "L5": 0.01744508557021618,
+        "time": 127.01729941368103
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=2__L4_weight=1__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -2.6792755126953125,
+        "L2": 0.3604236841201782,
+        "L3": 0.07017159461975098,
+        "L4": 0.5975773930549622,
+        "L5": 0.025154193863272667,
+        "time": 127.53421258926392
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=2__L4_weight=1__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -3.0571060180664062,
+        "L2": 0.18892525136470795,
+        "L3": 0.05633145570755005,
+        "L4": 0.22934147715568542,
+        "L5": 0.011109555140137672,
+        "time": 126.39009761810303
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=2__L4_weight=2__L5_weight=0.5__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.592098355293274,
+        "L2": 0.39116400480270386,
+        "L3": 0.10397839546203613,
+        "L4": 0.6456363201141357,
+        "L5": 0.06779558956623077,
+        "time": 126.91263175010681
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=2__L4_weight=2__L5_weight=1__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.808793544769287,
+        "L2": 0.19522316753864288,
+        "L3": 0.07200586795806885,
+        "L4": 0.2675167918205261,
+        "L5": 0.019259970635175705,
+        "time": 126.80630898475647
+    },
+    "L1_weight=1__L2_weight=2__L3_weight=2__L4_weight=2__L5_weight=2__batch_size=2048__boundary_points=50__epochs=10000__lr=0.1__num_layers=3__num_neurons=10__scheduler=exponential__solver=adam__uniform_points=50": {
+        "L1": -1.5591486692428589,
+        "L2": 0.1808318793773651,
+        "L3": 0.07569211721420288,
+        "L4": 0.3511285185813904,
+        "L5": 0.018123317509889603,
+        "time": 127.56188941001892
+    }
+}
