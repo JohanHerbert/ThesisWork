@@ -3,6 +3,7 @@ import pandas as pd
 from scipy.stats import norm, gaussian_kde
 import matplotlib.pyplot as plt
 import seaborn as sns
+import torch
 
 class stockPriceGenerator():
     def __init__(self, marginalDistribution1 = norm, marginalDistribution2 = norm):
@@ -168,11 +169,13 @@ class PortfolioData():
         pass
 
     def fitAndSampleCopulas(self, CopulaList, number = 10000):
-
         for copula in CopulaList:
             copula.fitModel(self.FittingNormalizedReturns)
-            SampledReturns = norm.ppf(copula.sampleCopula(number)) * self.estimatedStd
+            SampledReturns = norm.ppf(copula.sampleCopula(n = number)) * self.estimatedStd
             self.FittingSampleDict[copula.Name] = SampledReturns
+            if copula.Name == 'Neural Copula':
+                self.PlotCopulaSurface(copula.Copula, title = self.Name)
+                self.PlotCopulaGradientSurface(copula.Copula, title = self.Name)
             print('----------------------------------------')
         pass
 
@@ -190,6 +193,7 @@ class PortfolioData():
         pass
 
     def _compareDistributions(self, SampleReturns, TestReturns):
+        SampleReturns = SampleReturns[~np.isinf(SampleReturns).any(axis=1)]
         X = SampleReturns
         Y = TestReturns
 
@@ -202,7 +206,7 @@ class PortfolioData():
         X1_max = np.max([x1_max,y1_max])
         X2_min = np.min([x2_min,y2_min])
         X2_max = np.max([x2_max,y2_max])
-        num_points = 100
+        num_points = 500
         x1_Dim_range = np.linspace(X1_min, X1_max, num_points)
         x2_Dim_range = np.linspace(X2_min, X2_max, num_points)
 
@@ -261,6 +265,62 @@ class PortfolioData():
         ## Calculate distance
         dist =  (np.sum((Z_cdf_X - Z_cdf_Y)**2 *dX1*dX2))**(1/2) 
         return dist
+
+    def PlotCopulaSurface(self, copula, title = ""):
+        # Create meshgrid
+        u1 = np.linspace(0, 1, 500)
+        u2 = np.linspace(0, 1, 500)
+        U1, U2 = np.meshgrid(u1, u2, indexing="ij")
+        grid = np.column_stack((U1.ravel(), U2.ravel()))
+        grid_tensor = torch.tensor(grid, dtype=torch.float32)
+
+        # Get model predictions
+        copula.eval()
+        with torch.no_grad():
+            predictions = copula(grid_tensor)
+        Z_pred = predictions.numpy().reshape(500, 500)  
+
+        # Plot
+        fig = plt.figure(figsize=(8, 6))
+        ax = fig.add_subplot(111, projection='3d')
+        ax.plot_surface(U1, U2, Z_pred, cmap="viridis")
+        ax.set_xlabel("u1")
+        ax.set_ylabel("u2")
+        ax.set_zlabel("C(u1, u2)")
+        ax.set_title(f"Neural copula fitted to {title} data")
+        ax.view_init(elev=15, azim=256)
+        plt.tight_layout()
+        plt.show()
+
+    def PlotCopulaGradientSurface(self, copula, title = ""):
+        # Create meshgrid
+        u1 = np.linspace(0, 1, 500)
+        u2 = np.linspace(0, 1, 500)
+        U1, U2 = np.meshgrid(u1, u2, indexing="ij")
+        grid = np.column_stack((U1.ravel(), U2.ravel()))
+        grid_tensor = torch.tensor(grid, dtype=torch.float32)
+        grid_tensor.requires_grad = True
+
+        # Get model predictions
+        # copula.eval()
+        # with torch.no_grad():
+        #     predictions = copula(grid_tensor)
+        # Z_pred = predictions.numpy().reshape(500, 500)  
+
+        CopulaDensity = copula._CopulaGradient(grid_tensor, AsUnitsquare=True).detach().numpy().reshape(500, 500)  
+
+        # Plot
+        fig = plt.figure(figsize=(8, 6))
+        ax = fig.add_subplot(111, projection='3d')
+        ax.plot_surface(U1, U2, CopulaDensity, cmap="viridis")
+        ax.set_xlabel("u1")
+        ax.set_ylabel("u2")
+        ax.set_zlabel("c(u1, u2)")
+        ax.set_title(f"Neural copula density when fitted to {title} data")
+        ax.view_init(elev=15, azim=256)
+        plt.tight_layout()
+        plt.show()
+
 
 
 
@@ -474,11 +534,11 @@ class plotCopulaData():
             marginal_kws=dict(bins=30, fill=True, alpha=0.75, stat="density"),  # Make it semi-transparent
             joint_kws={"s": 10, "edgecolor": "none"},
             color="blue",  # Color for fitting data
-            label="Sampled Returns"
+            label="Sampled Returns", alpha = 0.6
         )
         sns.scatterplot(
             data=df_returnSpace_testing, x="X1", y="X2",
-            color="red", s=10, edgecolor="none", ax=g.ax_joint, label="Testing Returns"
+            color="red",alpha = 0.6, s=10, edgecolor="none", ax=g.ax_joint, label="Testing Returns"
         )
         sns.histplot(df_returnSpace_testing["X1"], bins=30, color="red", alpha=0.6, ax=g.ax_marg_x, stat="density")
         sns.histplot(y=df_returnSpace_testing["X2"], bins=30, color="red", alpha=0.6, ax=g.ax_marg_y, stat="density")   

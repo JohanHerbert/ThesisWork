@@ -7,7 +7,7 @@ import torch.optim as optim
 from scipy.interpolate import BarycentricInterpolator
 import scipy
 import seaborn as sns
-
+from torch.optim.lr_scheduler import ExponentialLR
 
 class MarginalModel(nn.Module):
     def __init__(self, num_layers=5, num_neurons=5, lr=0.01):
@@ -229,7 +229,7 @@ class MarginalModel(nn.Module):
 
 
 class CopulaModel(nn.Module):
-    def __init__(self, dataPoints, Marginal1, Marginal2, num_layers=5, num_neurons=5, lr=0.01):
+    def __init__(self, dataPoints, Marginal1, Marginal2, num_layers=3, num_neurons=10, lr=0.1):
         super(CopulaModel, self).__init__()
         dimensions = dataPoints.size(1)
         layers = [nn.Linear(dimensions, num_neurons), nn.Tanh()]  # Input layer
@@ -241,11 +241,18 @@ class CopulaModel(nn.Module):
 
         self.fc = nn.Sequential(*layers)
         self.optimizer = optim.Adam(self.parameters(), lr=lr)
-
-        ### Data for training
+        self.scheduler = ExponentialLR(self.optimizer, gamma=0.999)
+            ### Data for training
         self.ObservedData = dataPoints
         self.Marginal1 = Marginal1
         self.Marginal2 = Marginal2
+
+        x1 = self.ObservedData[:,0]
+        x2 = self.ObservedData[:,1]
+        ProbVals1 = self.Marginal1(x1.view(-1, 1))
+        ProbVals2 = self.Marginal2(x2.view(-1, 1))
+        self.u = torch.cat((ProbVals1, ProbVals2), dim=1)
+
         # Boundary points
         self.upperBoundary = self._generateUpperBoundaryPoints(dimensions)
         self.lowerBoundary = self._generateLowerBoundPoints(dimensions)
@@ -256,7 +263,7 @@ class CopulaModel(nn.Module):
         self.unitSquaretensor = torch.tensor(unitSquarePoints, dtype=torch.float32)
 
         # Look at later
-        self.flagSumData = self._FlagSum(self.unitSquaretensor, self.unitSquaretensor)
+        self.flagSumData = self._FlagSum(self.unitSquaretensor, self.u)
         self.delta_m = 1 / dataPoints.shape[0]
 
         # Practicality
@@ -266,41 +273,76 @@ class CopulaModel(nn.Module):
     def forward(self, x):
         return self.fc(x)
 
-    def _CopulaGradient(self,x):
-        x1 = x[:,0]
-        x2 = x[:,1]
-        # Probability integral transform
-        ProbVals1 = self.Marginal1(x1.view(-1, 1))
-        ProbVals2 = self.Marginal2(x2.view(-1, 1))
-        u = torch.cat((ProbVals1, ProbVals2), dim=1)
-        # Calculate marginal densities
-        gradM1 = torch.autograd.grad(ProbVals1, x1, torch.ones_like(ProbVals1), create_graph=True, allow_unused=True)[0]
-        gradM2 = torch.autograd.grad(ProbVals2, x2, torch.ones_like(ProbVals2), create_graph=True, allow_unused=True )[0]
-        # Prediction and gradient of copula CDF
+    # def _CopulaGradient(self,x):
+    #     x1 = x[:,0]
+    #     x2 = x[:,1]
+    #     # Probability integral transform
+    #     ProbVals1 = self.Marginal1(x1.view(-1, 1))
+    #     ProbVals2 = self.Marginal2(x2.view(-1, 1))
+    #     u = torch.cat((ProbVals1, ProbVals2), dim=1)
+    #     # Calculate marginal densities
+    #     gradM1 = torch.autograd.grad(ProbVals1, x1, torch.ones_like(ProbVals1), create_graph=True, allow_unused=True)[0]
+    #     gradM2 = torch.autograd.grad(ProbVals2, x2, torch.ones_like(ProbVals2), create_graph=True, allow_unused=True )[0]
+    #     # Prediction and gradient of copula CDF
+    #     y_pred = self(u)
+    #     gradCopulaModel = torch.autograd.grad(y_pred, u, torch.ones_like(y_pred), create_graph=True, allow_unused=True )[0]
+    #     CopulaGradient = gradCopulaModel[:, 0] * gradM1 * gradCopulaModel[:, 1] * gradM2
+    #     return CopulaGradient
+
+    # def Copula_loss_function(self, x): ## MAKE SURE TO PASS IN THE SAME DATAPOINTS AS IN THE INITIALIZATION
+    #     x.requires_grad = True
+    #     self.unitSquaretensor.requires_grad = True
+    #     CopulaGradientObserved = self._CopulaGradient(x)
+    #     n_observed = x.shape[0]
+    #     CopulaGradientUnitSquare = self._CopulaGradient(self.unitSquaretensor)
+    #     n_unitsquare = self.unitSquaretensor.shape[0]
+    #     flagSumData = self._FlagSum(x, self.unitSquaretensor)
+    #     pred_unitSquare = self(self.unitSquaretensor)
+
+    #     L1 = -torch.mean(torch.log(torch.relu(CopulaGradientObserved) + 1e-8))
+    #     L2 = torch.mean(torch.relu(-CopulaGradientUnitSquare))
+    #     L3 = torch.abs(1 - torch.sum(CopulaGradientUnitSquare / CopulaGradientUnitSquare.shape[0]))
+    #     L4 = torch.sum(self(self.lowerBoundary)) + torch.sum(torch.abs(self(self.upperBoundary) - torch.min(self.upperBoundary, dim=1).values.view(-1,1)))      
+    #     L5 = 1/(n_observed*n_unitsquare) * torch.sum(torch.abs(pred_unitSquare - flagSumData))
+
+    #     Loss = L1 + 2*L2 + 0.5*L3 + L4 + L5
+    #     return Loss, L1, L2, L3, L4, L5
+    
+    def _CopulaGradient(self, x, AsUnitsquare = False):
+        if AsUnitsquare == False:
+            x1 = x[:, 0]
+            x2 = x[:, 1]
+            # Compute PIT-transformed inputs
+            ProbVals1 = self.Marginal1(x1.view(-1, 1))
+            ProbVals2 = self.Marginal2(x2.view(-1, 1))
+            u = torch.cat((ProbVals1, ProbVals2), dim=1)
+        else:
+            u = x
         y_pred = self(u)
-        gradCopulaModel = torch.autograd.grad(y_pred, u, torch.ones_like(y_pred), create_graph=True, allow_unused=True )[0]
-        CopulaGradient = gradCopulaModel[:, 0] * gradM1 * gradCopulaModel[:, 1] * gradM2
-        return CopulaGradient
+        grad_u = torch.autograd.grad(outputs=y_pred,inputs=u,grad_outputs=torch.ones_like(y_pred),create_graph=True)[0][:, 0]
+        grad_uv = torch.autograd.grad(outputs=grad_u,inputs=u,grad_outputs=torch.ones_like(grad_u),create_graph=True)[0][:, 1]
+        return grad_uv
 
     def Copula_loss_function(self, x): ## MAKE SURE TO PASS IN THE SAME DATAPOINTS AS IN THE INITIALIZATION
         x.requires_grad = True
         self.unitSquaretensor.requires_grad = True
         CopulaGradientObserved = self._CopulaGradient(x)
         n_observed = x.shape[0]
-        CopulaGradientUnitSquare = self._CopulaGradient(self.unitSquaretensor)
+        CopulaGradientUnitSquare = self._CopulaGradient(self.unitSquaretensor, AsUnitsquare=True)  
         n_unitsquare = self.unitSquaretensor.shape[0]
-        flagSumData = self._FlagSum(x, self.unitSquaretensor)
         pred_unitSquare = self(self.unitSquaretensor)
 
+        
         L1 = -torch.mean(torch.log(torch.relu(CopulaGradientObserved) + 1e-8))
         L2 = torch.mean(torch.relu(-CopulaGradientUnitSquare))
         L3 = torch.abs(1 - torch.sum(CopulaGradientUnitSquare / CopulaGradientUnitSquare.shape[0]))
         L4 = torch.sum(self(self.lowerBoundary)) + torch.sum(torch.abs(self(self.upperBoundary) - torch.min(self.upperBoundary, dim=1).values.view(-1,1)))      
-        L5 = 1/(n_observed*n_unitsquare) * torch.sum(torch.abs(pred_unitSquare - flagSumData))
+        L5 = (1/(n_unitsquare)) * torch.sum(torch.abs(pred_unitSquare.squeeze() - self.flagSumData/n_observed))
 
-        Loss = L1 + L2 + L3 + L4 + L5
+        Loss =  L1 + 2*L2 + 0.5*L3 + L4 + L5
         return Loss, L1, L2, L3, L4, L5
-    
+
+
     def _generateLowerBoundPoints(self, d, num_points=100):
         grid = np.linspace(0, 1, num_points)
         all_surfaces = []
@@ -326,7 +368,7 @@ class CopulaModel(nn.Module):
         """Vectorized computation of FlagSum without explicit Python loops."""
         return self._flag(x, y).sum(dim=1)
 
-    def train_model(self, X, epochs=5000, log_interval=500):
+    def train_model(self, X, epochs=10000, log_interval=500):
             for epoch in range(epochs):
                 self.optimizer.zero_grad()
                 loss, L1, L2, L3, L4, L5 = self.Copula_loss_function(X)
@@ -336,6 +378,9 @@ class CopulaModel(nn.Module):
                 if epoch % log_interval == 0:
                     print(f'Epoch {epoch}, Loss: {loss.item()}, Losses: L1: {L1.item()}, L2: {L2.item()}, L3: {L3.item()}, L4: {L4.item()}, L5: {L5.item()}')
 
+                if self.scheduler:
+                    self.scheduler.step()
+                
             self.isTrained = True
 
 
@@ -458,16 +503,23 @@ class CopulaModel(nn.Module):
         plt.show()
         pass
 
-
 class NeuralCopula():
-    def __init__(self, data, num_layers=5, num_neurons=5, lr=0.01):
+    def __init__(self, data= None, num_layers=3, num_neurons=10, lr=0.1):
+        self.Name = 'Neural Copula'
         self.Marginal1 = None
         self.Marginal2 = None
         self.Copula = None
-        self.data = data
+        if data is not None:
+            self.data = data
+        else:
+            self.data = None
         self.normalizedData = None
         self.normalizedDataAsTensor = None
         self.isNormalized = False
+
+        self.num_layers = num_layers
+        self.num_neurons = num_neurons
+        self.lr = lr
 
         ## Normalization variables
         self.scaling = 2.0
@@ -500,22 +552,27 @@ class NeuralCopula():
         DeNormalizedData = NormalizedData * (np.max(self.data, axis=0) - np.min(self.data, axis=0)) + np.min(self.data, axis=0)
         return DeNormalizedData
 
-    def fitModel(self):
+    def fitModel(self, data = None):
+        if data is not None:
+            self.data = data
+        elif self.data is None:
+            raise ValueError("No data provided for fitting the model.")
+        self.normalizeData()
         ## Training marginals
         self.Marginal1 = MarginalModel(num_layers=6, num_neurons=10, lr=0.01)
         self.Marginal2 = MarginalModel(num_layers=6, num_neurons=10, lr=0.01)
         print('Model 1 Training')
-        self.Marginal1.train_model(self.normalizedDataAsTensor[:-2,0].view(-1, 1), epochs=5000, log_interval=500)
+        self.Marginal1.train_model(self.normalizedDataAsTensor[:-2,0].view(-1, 1), epochs=1500, log_interval=500)
         print('Model 2 Training')
-        self.Marginal2.train_model(self.normalizedDataAsTensor[:-2,1].view(-1, 1), epochs=5000, log_interval=500)
+        self.Marginal2.train_model(self.normalizedDataAsTensor[:-2,1].view(-1, 1), epochs=1500, log_interval=500)
         ## Training copula
-        self.Copula = CopulaModel(self.normalizedDataAsTensor[:-2], self.Marginal1, self.Marginal2) 
+        self.Copula = CopulaModel(self.normalizedDataAsTensor[:-2], self.Marginal1, self.Marginal2, num_layers=self.num_layers, num_neurons=self.num_neurons, lr=self.lr) 
         print('Training copula model')
-        self.Copula.train_model(self.normalizedDataAsTensor[:-2], epochs=5000, log_interval=500)
+        self.Copula.train_model(self.normalizedDataAsTensor[:-2], epochs=10000, log_interval=500)
         print('Training done')
         pass
 
-    def sample(self, Plot = False, n=1000):
+    def sampleCopula(self, Plot = False, n=1000):
         copulaSample = self.Copula.sample(n)
         marginalSamples = self.sample_marginals(copulaSample)
         denormalizedSamples = self.denormalizeData(marginalSamples)
@@ -530,13 +587,15 @@ class NeuralCopula():
         sample_marginal2 = self.Marginal2.newSamples(ProbabilityValues=probabilityValues[:,1])
         samples = np.column_stack((sample_marginal1, sample_marginal2))
         return samples
-
-    def sample_copula(self, Plot = False, n = 1000):
+    
+    def sampleCopula(self, Plot = False, n = 1000):
         copulaSample = self.Copula.sample(n)
         if Plot:
             self.Copula.plotSamples(copulaSample, ProbSpace = True)
         return copulaSample
-    
+
+
+
 
 
 
